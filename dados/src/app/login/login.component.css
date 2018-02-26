@@ -1,0 +1,30 @@
+.container {
+  justify-content: center;
+  font-family: 'Amatic SC';
+}
+
+.registro {
+  margin-top: 200px;
+}
+
+.registro div {
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+button, input {
+  font-size: 40px;
+}
+
+.no-disponible {
+  display: none;
+}
+
+.aviso {
+  font-weight: bold;
+  font-size: 25px;
+}

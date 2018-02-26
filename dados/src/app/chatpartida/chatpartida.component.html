@@ -1,0 +1,19 @@
+<div class="row chateo">
+  <div class="col-2 listado">
+    <h4>Jugadores</h4>
+    <p *ngFor="let elemento of listaUsers">{{elemento}}</p>
+  </div>
+
+  <div class="col-9">
+    <h1>Chat de partida</h1>
+    <div class="chat">
+      <p *ngFor="let elemento of arrayMensajes"><span>{{elemento.usuario}}: </span>{{elemento.mensaje}}</p>
+    </div>
+    <div class="row">
+      <input class="form-control mr-sm-2" type="search" placeholder="Escribe aquí tu mensaje"
+             aria-label="Search" [(ngModel)]="message">
+      <button type="button" name="button" (click)="sendMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
+

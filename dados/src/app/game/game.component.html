@@ -1,0 +1,45 @@
+<div class="juego">
+  <h1>{{titulo}}</h1>
+  <div class="row">
+    <div class="col-12 final" [ngClass]="{activo: comienzo == 'activar',inactivo: comienzo == 'desactivar'}">
+      <button (click)="lanzar()" type="button" class="btn btn-light empezar">Lanzar dados
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dados">
+      <div class="mostrar">
+        <h2>Tras lanzar los dados debes esperar al resto de jugadores</h2>
+        <h1>{{dadouno}} + {{dadodos}} = {{total}}</h1>
+      </div>
+      <div class="fin">
+        <h2 style="color: green; font-weight: bold">¡La partida ha terminado! El ganador es <h1>{{ganador}}</h1></h2>
+        <button id="cambiar" (click)="verresultados()" style="font-weight: bold">Ver resultados</button>
+        <button routerLinkActive="active"
+                [routerLink]="['/menu']" style="font-weight: bold">Volver al menú
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dados" [ngClass]="{continuar: menuadivina == 'on', esperar: menuadivina == 'off'}">
+      <h4>Debes intentar adivinar la suma de tus dados con las de los otros jugadores</h4>
+      <div class="jugando">
+        <select class="form-control" id="exampleFormControlSelect2">
+          <option *ngFor="let elemento of posibles">{{elemento}}</option>
+        </select>
+        <button type="button" name="button" (click)="sendResultado()">Enviar</button>
+      </div>
+      <div class="espera">
+        <h2 style="color: red">Esperando a los otros jugadores</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row resultados">
+    <div class="col-12">
+      <h2>Aquí tienes los resultados de la partida</h2>
+      <p *ngFor="let elemento of resultados" style="font-size: 26px; color: green; font-weight: bold">
+        {{elemento.user}} ha ganado una ronda con una diferencia de {{elemento.valor}}</p>
+    </div>
+  </div>
+</div>

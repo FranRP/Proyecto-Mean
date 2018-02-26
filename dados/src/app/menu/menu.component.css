@@ -1,0 +1,23 @@
+* {
+  font-family: "Amatic SC";
+}
+
+p {
+  font-size: 20px;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+.row {
+  margin-top: 30px;
+}
+
+.card {
+  border: 4px solid white;
+}
+
+button {
+  font-size: 40px;
+}

@@ -1,0 +1,10 @@
+<div class="chateo">
+  <div class="chat">
+    <p *ngFor="let elemento of arrayMensajes"><span>{{elemento.nombre}}: </span>{{elemento.mensaje}}</p>
+  </div>
+  <div class="row">
+    <input class="form-control mr-sm-2" type="search" placeholder="Escribe aquí tu mensaje"
+           aria-label="Search" [(ngModel)]="message">
+    <button type="button" name="button" (click)="sendMessage()">Enviar</button>
+  </div>
+</div>

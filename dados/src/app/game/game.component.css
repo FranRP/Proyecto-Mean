@@ -1,0 +1,61 @@
+.juego {
+  margin-top: 32px;
+}
+
+button {
+  font-size: 20px;
+  background: none;
+  background-color: inherit;
+}
+
+.dados {
+  height: 200px;
+  background-color: rgba(175, 169, 174, 0.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+option {
+  text-align: center;
+  font-size: 30px;
+}
+
+select {
+  font-weight: bold;
+  font-size: 20px;
+  text-align-last: center;
+  margin-bottom: 15px;
+}
+
+.dados h1 {
+  font-size: 80px;
+}
+
+.mostrar {
+  display: none;
+}
+
+.espera {
+  display: none;
+}
+
+.activo, .continuar {
+  display: block;
+}
+
+.inactivo, .esperar {
+  display: none;
+}
+
+.fin {
+  display: none;
+}
+
+.resultados {
+  display: none;
+  justify-content: center;
+  height: 300px;
+  overflow: scroll;
+}
+

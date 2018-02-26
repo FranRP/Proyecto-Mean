@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row registro">
+    <div class="col-12">
+      <h1>Introduce tu nombre de usuario</h1>
+    </div>
+    <div class="col-12">
+      <input [(ngModel)]="nickname" class="poner-name" type="text">
+      <button class="btn btn-light comprobador" (click)="comprobar()"> Comprobar nombre</button>
+    </div>
+
+    <div class="col-12 no-disponible">
+      <p class="aviso">Nombre no disponible</p>
+    </div>
+    <div class="col-12">
+      <button (click)="acceder()" type="button" class="btn btn-light entrar" disabled routerLinkActive="active"
+              [routerLink]="['/menu']">Log-in
+      </button>
+    </div>
+  </div>
+</div>

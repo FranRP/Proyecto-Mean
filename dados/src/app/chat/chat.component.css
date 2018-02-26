@@ -1,0 +1,32 @@
+.chat {
+  height: 300px;
+  overflow-y: scroll;
+  text-align: left;
+}
+
+input {
+  width: 70%;
+  padding: 6px 15px 6px 15px;
+}
+
+button {
+  width: 20%;
+  background-color: rgba(6, 6, 6, 0.87);
+  color: white;
+}
+
+.chateo {
+  margin-top: 32px;
+  padding-left: 35px;
+}
+
+p {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+span {
+  color: red;
+  font-weight: bold;
+  font-size: 25px;
+}

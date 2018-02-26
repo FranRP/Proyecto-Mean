@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Bienvenido {{nombre}}</h1>
+    </div>
+  </div>
+  <div class="row ajustar">
+    <div class="col-7">
+      <div class="row">
+        <div class="card text-white bg-dark col-3">
+          <div class="card-header">Regla 1</div>
+          <div class="card-body">
+            <h4 class="card-title">Funcionamiento</h4>
+            <p class="card-text">Cada jugador tirará 2 dados, y sabrá el resultado de la suma de los mismos</p>
+          </div>
+        </div>
+        <div class="card text-white bg-dark col-3">
+          <div class="card-header">Regla 2</div>
+          <div class="card-body">
+            <h4 class="card-title">Como ganar</h4>
+            <p class="card-text">Ganará el jugador que más se acerque a la suma total de los dados de todos los
+              jugadores</p>
+          </div>
+        </div>
+        <div class="card text-white bg-dark col-3">
+          <div class="card-header">Regla 3</div>
+          <div class="card-body">
+            <h4 class="card-title">En caso de empate</h4>
+            <p class="card-text">En caso de empate ambos ningún jugador sumará puntos</p>
+          </div>
+        </div>
+        <div class="card text-white bg-dark col-3">
+          <div class="card-header">Regla 4</div>
+          <div class="card-body">
+            <h4 class="card-title">Final de juego</h4>
+            <p class="card-text">El ganador será el mejor de 5 rondas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <app-chat></app-chat>
+    </div>
+    <div class="col-1">
+      <app-users></app-users>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button (click)="iniciar()" type="button" class="btn btn-light" routerLinkActive="active"
+              [routerLink]="['/partida']">Dale para jugar
+      </button>
+    </div>
+  </div>
+</div>
+
