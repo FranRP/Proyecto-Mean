@@ -13,6 +13,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
+var mongoose = require("mongoose");
 
 
 const publicPath = path.join(__dirname, './public');
@@ -31,6 +32,22 @@ app.use(express.static(publicPath));
 // db.once('open', function () {
 //
 // });
+
+var uristring = 'mongodb://franrp:franrp@ds245228.mlab.com:45228/dados';
+mongoose.connect(uristring, function (err, res) {
+  if (err) {
+    console.log('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+    console.log('Succeeded connected to: ' + uristring);
+  }
+});
+
+var userSchema = new mongoose.Schema({
+  name: String,
+  ganadas: Number
+});
+
+var PUser = mongoose.model('UsersScore', userSchema);
 
 
 var users = [];
@@ -91,10 +108,27 @@ io.on('connection', (socket) => {
     }
     socket.username = user;
     socket.score = 0;
+    socket.ganadas = 0;
+
+    var jugador = new PUser({
+      name: socket.username,
+      ganadas: socket.ganadas
+    });
+
+    jugador.save(function (err) {
+      if (err) console.log('Error on save!')
+    });
+
     io.emit('usuarios', users);
 
     socket.on('new-message', (message) => {
-      if ((message.mensaje != '') && (message.mensaje != undefined)
+      if (message.mensaje == 'ganadas') {
+        message.nombre = 'Server'
+        message.mensaje = 'he ganado ' + socket.ganadas + ' partidas';
+        console.log(message);
+        io.emit('mensajechat', message);
+      }
+      else if ((message.mensaje != '') && (message.mensaje != undefined) && (message.mensaje != 'ganadas')
       ) {
         console.log(message.mensaje + ' ----sssssssssssssssss')
         io.emit('mensajechat', message);
@@ -135,9 +169,14 @@ io.on('connection', (socket) => {
       }
       console.log(roomno + ' esta es la sala');
       socket.on('mensaje-sala', (message) => {
-        if ((message != '') && (message != undefined)
+        if ((message != '') && (message != undefined) && (message != 'ganadas')
         ) {
           io.to("sala-" + socket.sala).emit('mensaje-chat', {'usuario': socket.username, 'mensaje': message});
+        } else if (message == 'ganadas') {
+          io.to("sala-" + socket.sala).emit('mensaje-chat', {
+            'usuario': 'Server',
+            'mensaje': socket.username + ' ha ganado ' + socket.ganadas + ' partidas'
+          });
         }
       })
       ;
@@ -201,6 +240,26 @@ io.on('connection', (socket) => {
         lanzamientodados[socket.sala - 1] = [{'total': 0, 'cont': 0}];
         socket.score += 1;
         if (socket.score == 3) {
+          socket.ganadas += 1;
+
+          PUser.findOneAndUpdate({name: socket.username}, {ganadas: socket.ganadas}, function (err, doc) {
+            doc.save();
+          })
+
+          // PUser.deleteOne({name: socket.username}).exec(function (err) {
+          //   if (err) return handleError(err);
+          //   // removed!
+          // });
+          // var jugador = new PUser({
+          //   name: socket.username,
+          //   ganadas: socket.ganadas
+          // });
+          //
+          // jugador.save(function (err) {
+          //   if (err) console.log('Error on save!')
+          // });
+
+
           io.to("sala-" + socket.sala).emit('partida-terminada', {'ganador': socket.username, 'partida': 'finalizada'});
           console.log(socket.username + ' ha ganado');
         }
@@ -244,4 +303,47 @@ server.listen(port, () => {
 })
 ;
 
+/*  PASSPORT SETUP  */
 
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/success', (req, res) => res.send("You have successfully logged in"));
+app.get('/error', (req, res) => res.send("error logging in"));
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function (obj, cb) {
+  cb(null, obj);
+});
+
+
+/*  FACEBOOK AUTH  */
+
+const FacebookStrategy = require('passport-facebook').Strategy;
+
+const FACEBOOK_APP_ID = '1671931689539639';
+const FACEBOOK_APP_SECRET = 'c5bd939143b3072340c1ccb42661ec12';
+
+passport.use(new FacebookStrategy({
+    clientID: FACEBOOK_APP_ID,
+    clientSecret: FACEBOOK_APP_SECRET,
+    callbackURL: "/auth/facebook/callback"
+  },
+  function (accessToken, refreshToken, profile, cb) {
+    return cb(null, profile);
+  }
+));
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {failureRedirect: '/error'}),
+  function (req, res) {
+    console.log(req.user);
+    res.redirect('/success');
+  });
